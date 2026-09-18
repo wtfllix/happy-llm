@@ -11,6 +11,7 @@
 
     <!-- 1. 回归原始主题：保证列宽和排版是你最熟悉的样子 -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@latest/lib/themes/vue.css">
+    <link rel="stylesheet" href="./companion/companion.css">
 
     <!-- 2. 手动定义暗黑模式样式 (精准覆盖，不影响布局) -->
     <style>
@@ -136,6 +137,7 @@
     
     <!-- Mermaid JS -->
     <script src="//cdn.jsdelivr.net/npm/mermaid@8.0.0-rc.8/dist/mermaid.min.js"></script>
+    <script src="./companion/companion.js"></script>
     
     <script>
         var num = 0;
@@ -176,6 +178,7 @@
             },
             // --- 插件逻辑：插入按钮 + 图片放大 ---
             plugins: [
+                window.HappyLLMCompanionPlugin,
                 function(hook, vm) {
                     // 每次路由切换完成后执行
                     hook.doneEach(function() {

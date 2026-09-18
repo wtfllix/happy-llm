@@ -1,5 +1,6 @@
 - [Happy-LLM](./README.md)
   - [学习与环境准备](./学习与环境准备.md)
+  - [零基础伴读模式](./companion/README.md)
   - [前言](./前言.md)
   - [第一章 NLP 基础概念](./chapter1/第一章%20NLP基础概念.md)
   - [第二章 Transformer 架构](./chapter2/第二章%20Transformer架构.md)

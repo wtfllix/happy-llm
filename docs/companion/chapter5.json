@@ -1,0 +1,71 @@
+[
+  {
+    "id": "implementation-is-shapes",
+    "afterHeading": "5.1 动手实现一个 LLaMA2 大模型",
+    "title": "读模型代码时，先盯住张量形状",
+    "lead": "这一章代码很长，不必一开始记住每个类。最有效的主线是跟踪数据的形状怎样变化。",
+    "explain": [
+      "对每个模块都问：输入是什么形状、输出是什么形状、哪一维代表 batch、序列、注意力头或特征。只要形状链条能接上，整体结构就不容易迷路。"
+    ],
+    "points": [
+      "batch_size：一次处理多少条样本。",
+      "seq_len：每条样本有多少个 token。",
+      "dim：每个 token 用多少维数字表示。",
+      "n_heads：把特征分给多少个注意力头。"
+    ],
+    "remember": "先读懂数据怎么流动，再研究每一行数学实现。"
+  },
+  {
+    "id": "rmsnorm-stabilizes-scale",
+    "afterHeading": "5.1.2 构建 RMSNorm",
+    "title": "RMSNorm 在控制数值尺度",
+    "lead": "深层网络反复变换数据，数值可能越来越大或越来越小，归一化帮助各层在更稳定的范围内工作。",
+    "explain": [
+      "RMSNorm 用均方根衡量一组特征的整体大小，再按比例缩放。它关注尺度，不需要像 LayerNorm 那样再减去均值。"
+    ],
+    "remember": "RMSNorm 不负责理解语义，它负责让送进后续子层的数值尺度更稳定。"
+  },
+  {
+    "id": "rope-relative-position",
+    "afterHeading": "5.1.3 构建 LLaMA2 Attention",
+    "title": "RoPE 是把位置信息写进 Q 和 K 的旋转",
+    "lead": "注意力本身只看向量关系，不天然知道词序；RoPE 用与位置相关的旋转补上顺序信息。",
+    "explain": [
+      "可以把每个位置想成使用不同角度旋转向量。两个位置做点积时，它们的相对角度会影响结果，于是注意力能够感知相对距离。"
+    ],
+    "remember": "RoPE 不新增一个位置 token，而是在计算注意力前按位置旋转 Q、K。"
+  },
+  {
+    "id": "tokenizer-is-interface",
+    "afterHeading": "5.2 训练 Tokenizer",
+    "title": "Tokenizer 是文字世界与模型数字世界的接口",
+    "lead": "模型不直接读取字符串，它读取 token ID；Tokenizer 决定文本怎样切块以及每块对应哪个整数。",
+    "explain": [
+      "词表太细，序列会变长；词表太大，很多词又难以充分训练。Subword 方法在“常见片段直接表示”和“生词仍可拆开”之间折中。"
+    ],
+    "remember": "Tokenizer 不是预处理小工具，它会直接影响序列长度、词表大小、训练效率和模型可表达的文本单位。"
+  },
+  {
+    "id": "dataset-shifts-labels",
+    "afterHeading": "5.3.3 Dataset",
+    "title": "语言模型训练样本的答案就是“右移一位”",
+    "lead": "同一段 token 既能作为输入，也能构造监督目标。",
+    "explain": [
+      "输入是 [我, 喜欢, 学习]，目标可以是 [喜欢, 学习, 大模型]。模型在每个位置预测紧接着的下一个 token。"
+    ],
+    "remember": "自回归训练不是为每段文本手工写标签，而是用文本自身的下一个 token 作为标签。"
+  },
+  {
+    "id": "loss-to-update-loop",
+    "afterHeading": "5.3.4 预训练",
+    "title": "训练循环只需先抓住四步",
+    "lead": "代码涉及优化器、混合精度、梯度累积和日志，但核心闭环没有变。",
+    "points": [
+      "前向计算：模型给出预测。",
+      "计算损失：衡量预测与真实下一个 token 的差距。",
+      "反向传播：计算每个参数应怎样调整。",
+      "优化器更新：沿着降低损失的方向小步修改参数。"
+    ],
+    "remember": "复杂训练工程都围绕“预测、算错、求梯度、更新”这个循环服务。"
+  }
+]

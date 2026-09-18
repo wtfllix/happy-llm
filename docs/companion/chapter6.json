@@ -1,0 +1,62 @@
+[
+  {
+    "id": "framework-wraps-training-loop",
+    "afterHeading": "6.1.1 框架介绍",
+    "title": "训练框架是在封装第五章的重复工程",
+    "lead": "Transformers、Datasets、Trainer 和 DeepSpeed 看起来引入了新体系，但底层仍是模型、数据、损失、梯度和更新。",
+    "explain": [
+      "框架替你处理参数配置、批处理、检查点、日志和分布式通信，让注意力放在数据与实验设计，而不是反复写训练脚手架。"
+    ],
+    "remember": "遇到框架 API 时，把它映射回第五章的训练循环，就能判断每段配置在替你做什么。"
+  },
+  {
+    "id": "tokenize-chunk-batch",
+    "afterHeading": "6.1.3 预训练数据处理",
+    "title": "数据处理是在把长文本切成可批量训练的定长块",
+    "lead": "原始文章长度不一，GPU 却更适合处理形状整齐的张量。",
+    "explain": [
+      "流程通常是：文本转 token、把 token 串联、按 block_size 切块，再组成 batch。这样可以减少大量 padding 带来的浪费。"
+    ],
+    "remember": "数据管道的结果应是形状稳定的 token ID 与标签，而不是仍然长短不一的原始字符串。"
+  },
+  {
+    "id": "deepspeed-coordinates-resources",
+    "afterHeading": "6.1.5 使用 DeepSpeed 实现分布式训练",
+    "title": "DeepSpeed 主要解决“单张卡放不下或跑不快”",
+    "lead": "分布式训练不是改变模型要学什么，而是改变参数、梯度、优化器状态和计算怎样分配到多张设备。",
+    "explain": [
+      "ZeRO 的不同阶段会逐步拆分优化器状态、梯度和参数副本，以降低每张 GPU 的显存负担，但通信和配置复杂度也会增加。"
+    ],
+    "remember": "先在小规模单卡流程上验证数据和损失，再引入 DeepSpeed；它解决资源问题，不会自动修正训练逻辑。"
+  },
+  {
+    "id": "pretrain-versus-sft-objective",
+    "afterHeading": "6.2.1 Pretrain VS SFT",
+    "title": "两者都预测 token，区别主要在数据和哪些位置计入损失",
+    "lead": "SFT 并没有把语言模型换成另一种模型，常见实现仍使用 next-token prediction。",
+    "explain": [
+      "预训练通常让整段自然文本参与学习；对话 SFT 常把指令作为上下文，只在助手回答位置计算损失，避免要求模型去模仿用户问题。"
+    ],
+    "remember": "同一个模型目标，可以通过数据格式和 loss mask 被塑造成不同训练阶段。"
+  },
+  {
+    "id": "lora-small-update",
+    "afterHeading": "6.3.3 LoRA 微调的原理",
+    "title": "LoRA 不改大矩阵本体，只学习一份低秩增量",
+    "lead": "全量微调要更新海量参数；LoRA 假设任务适配所需的变化可以用两个较小矩阵的乘积近似。",
+    "explain": [
+      "原权重 W 冻结，训练得到 ΔW = BA，实际计算使用 W + ΔW。因为 A、B 的中间维度很小，需要训练和保存的参数会少很多。"
+    ],
+    "remember": "LoRA 节省的是可训练参数与优化器状态，不表示前向计算完全不经过原模型。"
+  },
+  {
+    "id": "alignment-after-capability",
+    "afterHeading": "6.4.1 为什么需要偏好对齐",
+    "title": "有能力回答，不等于会按人的期望回答",
+    "lead": "基座模型可能掌握知识，却仍会跑题、格式不稳定或选择不合适的回答方式。",
+    "explain": [
+      "偏好对齐关注“多个看似可行的回答里，人更希望哪一个”，因此它位于能力训练之后，继续塑造行为。"
+    ],
+    "remember": "预训练扩展能力边界，SFT 示范任务行为，偏好对齐进一步调整回答取舍。"
+  }
+]

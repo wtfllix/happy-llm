@@ -1,0 +1,52 @@
+[
+  {
+    "id": "pretraining-first-general-then-specific",
+    "afterHeading": "第三章 预训练语言模型",
+    "title": "“预训练”就是先学通用语言，再做具体任务",
+    "lead": "这一章的模型名字很多，但它们共享一条路线：先用大量文本学习通用规律，再适配下游任务。",
+    "explain": [
+      "像先完成长期的语言基础训练，再去准备分类、翻译或问答等专项考试。预训练成本高，但同一份基础能力可以被多个任务复用。"
+    ],
+    "remember": "预训练解决通用能力，微调或提示负责把通用能力引向具体任务。"
+  },
+  {
+    "id": "bert-fill-the-blank",
+    "afterHeading": "3.1.1 BERT",
+    "title": "BERT 的直觉是“看两边来填空”",
+    "lead": "BERT 使用 Encoder 架构，理解某个位置时可以同时利用左侧和右侧上下文。",
+    "explain": [
+      "句子“我去银行办理___”里，左右文都能帮助判断被遮住的词。训练中的 Masked Language Model 就是在大量文本上反复做这种填空。"
+    ],
+    "remember": "BERT 擅长双向理解，经典用途偏向分类、抽取和表示学习，而不是从左到右长文本生成。"
+  },
+  {
+    "id": "encoder-decoder-read-then-write",
+    "afterHeading": "3.2 Encoder-Decoder PLM",
+    "title": "Encoder-Decoder 可以先理解成“先读懂，再写出”",
+    "lead": "Encoder 把输入整理成上下文表示，Decoder 一边读取这些表示，一边逐步生成输出。",
+    "explain": [
+      "翻译时，Encoder 读完整个源语言句子；Decoder 根据读到的内容，从第一个词开始生成目标语言句子。"
+    ],
+    "remember": "输入和输出都是序列、但角色不同的任务，天然适合 Encoder-Decoder。"
+  },
+  {
+    "id": "decoder-only-continuation",
+    "afterHeading": "3.3 Decoder-Only PLM",
+    "title": "Decoder-Only 把很多任务统一成“继续写”",
+    "lead": "把指令、示例和问题都放进上下文后，模型只需要预测接下来的 token。",
+    "explain": [
+      "问答可以写成“问题：... 答案：”，翻译可以写成“把下面中文翻译成英文：...”。任务形式不同，但底层都变成续写。"
+    ],
+    "remember": "Decoder-Only 的统一接口是 next-token prediction，这也是现代生成式大模型常用的架构。"
+  },
+  {
+    "id": "llama-is-family-not-magic",
+    "afterHeading": "3.3.2 LLaMA",
+    "title": "LLaMA 的改进是组件组合，不是另一套基本原理",
+    "lead": "看到 RMSNorm、RoPE、SwiGLU 等新名词时，不要误以为 Transformer 被推翻了。",
+    "explain": [
+      "它仍然是 Decoder-Only Transformer，只是在归一化、位置编码和前馈网络等部位采用了更合适的实现。第五章会逐个搭建这些组件。"
+    ],
+    "remember": "先守住主干：掩码自注意力 + 前馈网络 + 残差连接；其余是关键组件的具体选择。"
+  }
+]
