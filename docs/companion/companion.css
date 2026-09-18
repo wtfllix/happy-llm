@@ -189,6 +189,48 @@
     margin-bottom: 5px;
 }
 
+.companion-how-it-works,
+.companion-math {
+    border-radius: 4px;
+    margin: 14px 0;
+    padding: 12px 14px;
+}
+
+.companion-how-it-works {
+    background: var(--companion-soft);
+}
+
+.companion-math {
+    background: #f4f1ff;
+    border-left: 3px solid #8671c7;
+}
+
+.companion-how-it-works > strong,
+.companion-math > strong {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+.companion-how-it-works > strong {
+    color: var(--companion-strong);
+}
+
+.companion-math > strong {
+    color: #5d4a9b;
+}
+
+.markdown-section .companion-card-body .companion-math-line {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    margin: 0 0 7px;
+}
+
+.markdown-section .companion-card-body .companion-math-line:last-child {
+    margin-bottom: 0;
+}
+
 .markdown-section .companion-points {
     margin: 12px 0 16px;
     padding-left: 20px;
@@ -246,6 +288,15 @@ body.dark-mode .companion-card-lead {
 
 body.dark-mode .companion-remember strong {
     color: #e4cd73;
+}
+
+body.dark-mode .companion-math {
+    background: #28233b;
+    border-left-color: #9f8ee0;
+}
+
+body.dark-mode .companion-math > strong {
+    color: #c4b7f5;
 }
 
 @media (max-width: 600px) {

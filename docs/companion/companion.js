@@ -63,6 +63,24 @@
         return paragraph;
     }
 
+    function createLabeledSection(className, labelText, content, contentClassName) {
+        const section = document.createElement('div');
+        section.className = className;
+
+        const label = document.createElement('strong');
+        label.textContent = labelText;
+        section.appendChild(label);
+
+        const lines = Array.isArray(content) ? content : [content];
+        lines.forEach(function (line) {
+            const paragraph = createParagraph(line);
+            if (contentClassName) paragraph.className = contentClassName;
+            section.appendChild(paragraph);
+        });
+
+        return section;
+    }
+
     function createCard(note, chapterNumber) {
         const card = document.createElement('details');
         card.className = 'companion-card';
@@ -122,6 +140,23 @@
                 explanation.appendChild(createParagraph(line));
             });
             body.appendChild(explanation);
+        }
+
+        if (note.howItWorks) {
+            body.appendChild(createLabeledSection(
+                'companion-how-it-works',
+                '它大概怎么运作',
+                note.howItWorks
+            ));
+        }
+
+        if (note.math) {
+            body.appendChild(createLabeledSection(
+                'companion-math',
+                '数学上先记住',
+                note.math,
+                'companion-math-line'
+            ));
         }
 
         if (note.points && note.points.length) {
